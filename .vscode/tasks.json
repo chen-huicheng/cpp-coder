@@ -8,8 +8,8 @@
                 "-g",
                 "${file}",
                 "-o",
-                "${workspaceFolder}/bin/${fileBasenameNoExtension}"
-                // "-lpthread"
+                "${workspaceFolder}/bin/${fileBasenameNoExtension}",
+                "-lpthread"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
