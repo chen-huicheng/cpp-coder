@@ -1,5 +1,6 @@
 #include <iostream>
 #include <list>
+#include <vector>
 #include <unistd.h>
 #include <pthread.h>
 #include <memory>
@@ -164,14 +165,40 @@ private:
 };
 int User::count = 0;
 locker User::mutex;
-int main()
-{
-    threadpoll<User> threadpoll(8, 100000);
-    for (int i = 0; i < 10000000; i++)
+
+void *productor(void *arg){
+    threadpoll<User>* poll=(threadpoll<User>*)arg;
+    for (int i = 0; i < 10000; i++)
     {
         shared_ptr<User> user = make_shared<User>(i);
-        while(!threadpoll.append(user))
+        while(!poll->append(user))
             usleep(2);
+    }
+    sleep(3);
+    for (int i = 0; i < 10000; i++)
+    {
+        shared_ptr<User> user = make_shared<User>(i);
+        while(!poll->append(user))
+            usleep(2);
+    }
+}
+
+int main()
+{
+    int threadnum=10;
+    int request=100000;
+    threadpoll<User> *thpoll=new threadpoll<User>(8, 100000);
+    vector<pthread_t> tids;
+    for(int i=0;i<threadnum;i++){
+        pthread_t tid;
+        pthread_create(&tid,NULL,productor,thpoll);
+        if(tid<0){
+            abort();
+        }
+        tids.push_back(tid);
+    }
+    for(auto tid:tids){
+        pthread_join(tid,NULL);
     }
     sleep(3);
     printf("%d\n",User::count);
