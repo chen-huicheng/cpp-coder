@@ -67,7 +67,6 @@ int main(int argc, char *argv[])
     epoll_event event[512];
     while (1)
     {
-
         number = epoll_wait(epollfd, event, 512, -1);
         if (number < 0 && errno != EINTR)
         {
@@ -79,11 +78,9 @@ int main(int argc, char *argv[])
             int sockfd = event[i].data.fd;
             if (sockfd == sock && (event[i].events & EPOLLIN))
             {
-
                 struct sockaddr_in cliaddr;
                 socklen_t clilen = sizeof(sockaddr_in);
                 connfd = accept(sock, (struct sockaddr *)&cliaddr, &clilen);
-
                 if (connfd < 0)
                 {
                     printf("errno is -> %d:%s\n", errno, strerror(errno));
@@ -100,14 +97,13 @@ int main(int argc, char *argv[])
                 // gResetOneshot(epollfd, connfd);
                 // continue;
                 printf("Start sleep(10) ...\n");
-                sleep(10);
+                sleep(5);
                 char text[512];
 
                 int ret = recv(connfd, text, 512, 0);
                 while (recv > 0)
                 {
                     if (ret > 0)
-
                     {
                         text[ret] = '\0';
                         printf("Recv(%d):%s\n", ret, text);
@@ -118,7 +114,7 @@ int main(int argc, char *argv[])
                         close(connfd);
                         break;
                     }
-                    else if (errno == EWOULDBLOCK)
+                    else if (errno == EWOULDBLOCK || errno == EAGAIN)
                     {
                         printf("Wouldblock\n");
                         break;
@@ -129,17 +125,27 @@ int main(int argc, char *argv[])
                         break;
                     }
                     ret = recv(connfd, text, 512, 0);
-                    epoll_event event;
-                    event.data.fd = connfd;
-                    event.events = EPOLLOUT;
-                    /* 同一时刻只允许一个线程处理该描述符 */
-                    event.events = event.events | EPOLLONESHOT;
-                    epoll_ctl(epollfd, EPOLL_CTL_ADD, connfd, &event);
-                    gSetNonblocking(connfd);
                 }
-                //gResetOneshot(epollfd, connfd);
+                epoll_event event;
+                event.data.fd = connfd;
+                event.events = EPOLLOUT;
+                    /* 同一时刻只允许一个线程处理该描述符 */
+                event.events = event.events | EPOLLONESHOT;
+                epoll_ctl(epollfd, EPOLL_CTL_MOD, connfd, &event);
+                gSetNonblocking(connfd);
+                printf("EPOLLOUT\n");
+                sleep(5);
+                // gResetOneshot(epollfd, connfd);
             }
+            else if (sockfd == connfd && (event[i].events & EPOLLOUT)){
+                printf("EPOLLOUT block\n");
+                sleep(10);
+                gSetNonblocking(connfd);
+                gResetOneshot(epollfd, connfd);
+            }
+            printf("%d\n",i);
         }
+        printf("\nhello\n");
     }
 
     return 0;
