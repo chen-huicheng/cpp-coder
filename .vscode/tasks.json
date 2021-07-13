@@ -9,7 +9,7 @@
                 "${file}",
                 "-o",
                 "${workspaceFolder}/bin/${fileBasenameNoExtension}",
-                "-lpthread"
+                // "-lpthread"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
