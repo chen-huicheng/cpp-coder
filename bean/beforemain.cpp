@@ -11,5 +11,5 @@ class A{
 };
 A a;
 int main(){
-    cout<<"main()"<<end;
+    cout<<"main()"<<endl;
 }
