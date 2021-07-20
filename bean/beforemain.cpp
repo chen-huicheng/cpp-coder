@@ -11,5 +11,7 @@ class A{
 };
 A a;
 int main(){
+    A *p = new A;
     cout<<"main()"<<endl;
+    delete p;
 }
