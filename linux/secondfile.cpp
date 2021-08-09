@@ -7,7 +7,7 @@
 using namespace std;
 int main(){
     string filename="file.txt";
-    int fd = open(filename.c_str(),O_WRONLY|O_CREAT|O_APPEND);
+    int fd = open(filename.c_str(),O_WRONLY|O_CREAT);
     if(fd<0){
         cout<<"open file failed!"<<endl;
         assert(0);

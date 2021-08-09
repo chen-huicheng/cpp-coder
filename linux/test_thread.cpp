@@ -5,7 +5,7 @@
 #include<stdio.h>
 using namespace std;
 void* loop(void *){
-    sleep(15);
+    sleep(150);
 }
 int main(){
     int err=0;
