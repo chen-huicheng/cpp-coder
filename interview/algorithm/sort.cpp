@@ -42,8 +42,8 @@ void merge_sort(vector<int> &nums, int l, int r)
 int cnt = 0;
 void quick_sort(vector<int> &nums, int l, int r)
 {
-    if (l >= r)
-        return;
+    // if (l >= r)
+    //     return;
     cnt++;
     int hole = nums[l];
     int i = l, j = r;
@@ -57,7 +57,9 @@ void quick_sort(vector<int> &nums, int l, int r)
         nums[j] = nums[i];
     }
     nums[i] = hole;
+    if(i-1-l>0)
     quick_sort(nums, l, i - 1);
+    if(r-i-1>0)
     quick_sort(nums, i + 1, r);
 }
 /**
@@ -180,20 +182,20 @@ int main()
     //     cout << n << " ";
     // cout << endl;
 
-    int n = 10000;
+    int n = 100000;
     vector<int> nums(n);
     int k = 1000;
     cout << "quick_sort:\t";
     int sum = 0;
     for (int i = 0; i < k; ++i)
     {
-        srand((unsigned)time(NULL));
+        srand((unsigned)time(NULL)+rand());
         for (int i = 0; i < n; i++)
             nums[i] = rand();
         // sort(nums.begin(), nums.end(),greater<int>());
         // cout<<"quick_sort:\t";
         quick_sort(nums, 0, nums.size() - 1);
-        usleep(10);
+        usleep(100);
         cout << cnt << endl;
         sum += cnt;
         cnt = 0;
@@ -202,7 +204,7 @@ int main()
     // for (auto n : nums)
     //     cout << n << " ";
     cout << endl;
-    cout << sum / 100 << endl;
+    cout << sum / 1000 << endl;
 
     // cout << "heap_sort:\t";
     // heap_sort(nums);
