@@ -9,8 +9,10 @@
                 "-g",
                 "${file}",
                 "-o",
-                "${workspaceFolder}/bin/${fileBasenameNoExtension}"//,
-                // "-lpthread"
+                "${workspaceFolder}/bin/${fileBasenameNoExtension}",
+                // "-lpthread",
+                // "-c",
+                // "-Wall",
             ],
             "options": {
                 "cwd": "${workspaceFolder}"

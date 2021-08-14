@@ -87,13 +87,13 @@ int main(int argc, char *argv[])
                     continue;
                 }
                 /* 设置连接套接字EPOLLONESHOT */
-                // gAddfd(epollfd, connfd, false);
+                gAddfd(epollfd, connfd, false);
                 //gResetOneshot(epollfd, sock);
                 printf("Client connect\n");
             } /* 来子外界的信号，如在终端输入kill -signal PID给此进程时 */
             else if (sockfd == connfd && (event[i].events & EPOLLIN))
             {
-                continue;
+                getchar();
                 // printf("Don't process\n");
                 // gResetOneshot(epollfd, connfd);
                 // continue;
@@ -144,9 +144,7 @@ int main(int argc, char *argv[])
                 gSetNonblocking(connfd);
                 gResetOneshot(epollfd, connfd);
             }
-            printf("%d\n",i);
         }
-        printf("\nhello\n");
     }
 
     return 0;
