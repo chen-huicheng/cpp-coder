@@ -42,7 +42,9 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "functional": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "condition_variable": "cpp",
+        "thread": "cpp"
     }
 }
 
