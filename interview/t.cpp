@@ -31,6 +31,6 @@ int main(){
         res+=sta.top();
         sta.pop();
     }
-    cout<<res<<endl;
+    cout<< res <<endl;
     
 }
