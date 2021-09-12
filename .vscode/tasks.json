@@ -10,7 +10,7 @@
                 "${file}",
                 "-o",
                 "${workspaceFolder}/bin/${fileBasenameNoExtension}",
-                "-lpthread",
+                // "-lpthread",
                 // "-c",
                 // "-Wall",
             ],
