@@ -8,6 +8,7 @@ int dfs(vector<vector<int>> &tree,vector<int> &w,int idx){
     if(tree[idx].size()>1){
         w[idx]+=dfs(tree,w,tree[idx][1]);
     }
+    return w[idx];
 }
 int main(){
     int n;
